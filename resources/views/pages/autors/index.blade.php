@@ -36,6 +36,7 @@
                         <th class="text-left px-5 py-3">Nombre</th>
                         <th class="text-left px-5 py-3">Nacionalidad</th>
                         <th class="text-left px-5 py-3">Libros</th>
+                        <th class="text-left px-5 py-3">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -48,6 +49,16 @@
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-50 text-sky-700">
                                     {{ $autor->libros_count }}
                                 </span>
+                            </td>
+                            <td>
+                                <form action="{{ route('autors.destroy', $autor) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 transition cursor-pointer"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este autor?')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty

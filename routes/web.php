@@ -8,10 +8,6 @@ Route::get('/', function () {
     return redirect()->route('books.index');
 });
 
-Route::get('/books',        [BookController::class, 'index'])->name('books.index');
-Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
-Route::post('/books',       [BookController::class, 'store'])->name('books.store');
-
-Route::get('/autors',        [AutorController::class, 'index'])->name('autors.index');
-Route::get('/autors/create', [AutorController::class, 'create'])->name('autors.create');
-Route::post('/autors',       [AutorController::class, 'store'])->name('autors.store');
+// Rutas para libros y autores, se utiliza resource para generar automáticamente las rutas RESTful y simplificar el código. Esto incluye rutas para index, create, store y destroy.
+Route::resource('books', BookController::class);
+Route::resource('autors', AutorController::class);

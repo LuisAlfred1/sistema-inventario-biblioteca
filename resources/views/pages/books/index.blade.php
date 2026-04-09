@@ -25,17 +25,6 @@
                 Crear libro
             </a>
         </div>
-
-        {{-- Flash message --}}
-        @if (session('success'))
-            <div
-                class="flex items-center gap-2 bg-sky-50 border border-sky-200 text-sky-700
-                    text-sm rounded-lg px-4 py-3 mb-6">
-                <i class="bi bi-check-circle"></i>
-                {{ session('success') }}
-            </div>
-        @endif
-
         {{-- Tabla --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <table class="w-full text-sm">
@@ -46,6 +35,7 @@
                         <th class="text-left px-5 py-3">Autor</th>
                         <th class="text-left px-5 py-3">Año</th>
                         <th class="text-left px-5 py-3">Stock</th>
+                        <th class="text-left px-5 py-3">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -61,6 +51,16 @@
                                 {{ $libro->stock > 0 ? 'bg-sky-50 text-sky-700' : 'bg-red-50 text-red-600' }}">
                                     {{ $libro->stock }}
                                 </span>
+                            </td>
+                            <td class="px-5 py-3">
+                                <form action="{{ route('books.destroy', $libro) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 transition cursor-pointer"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty
