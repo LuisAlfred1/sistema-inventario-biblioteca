@@ -14,19 +14,21 @@
             {{-- Desktop nav --}}
             <div class="hidden md:flex items-center gap-2">
                 <a href="{{ route('books.index') }}"
-                    class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition
+                    class="flex items-center gap-1.5 px-4 py-1 rounded-lg text-sm font-medium transition
                           {{ request()->routeIs('books.index')
                               ? 'bg-sky-50 text-sky-600'
                               : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800' }}">
-                    <i class="bi bi-journals text-[15px]"></i>
+                    <i class="bi bi-journals text-[20px]"></i>
                     Libros
                 </a>
 
-                <a href="{{ route('books.create') }}"
-                    class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium
-                          bg-sky-600 hover:bg-sky-700 text-white transition">
-                    <i class="bi bi-plus-lg text-[13px]"></i>
-                    Crear libro
+                <a href="{{ route('autors.index') }}"
+                    class="flex items-center gap-1.5 px-4 py-1 rounded-lg text-sm font-medium transition
+                          {{ request()->routeIs('autors.index')
+                              ? 'bg-sky-50 text-sky-600'
+                              : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="bi bi-people text-[20px]"></i>
+                    Autores
                 </a>
             </div>
 
@@ -51,14 +53,17 @@
             <i class="bi bi-journals"></i>
             Libros
         </a>
-
-        <a href="{{ route('books.create') }}"
-            class="flex items-center justify-center gap-2 px-4 py-2 mt-1 rounded-lg text-sm font-medium
-                  bg-sky-600 hover:bg-sky-700 text-white transition">
-            <i class="bi bi-plus-lg"></i>
-            Crear libro
+        <a href="{{ route('autors.index') }}"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+                  {{ request()->routeIs('autors.index')
+                      ? 'bg-sky-50 text-sky-600'
+                      : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800' }}">
+            <i class="bi bi-people"></i>
+            Autores
         </a>
     </div>
+</nav>
+</div>
 </nav>
 
 @push('scripts')
