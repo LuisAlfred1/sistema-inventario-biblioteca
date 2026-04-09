@@ -21,6 +21,21 @@ class AutorController extends Controller
         return view('pages.autors.index', compact('autores', 'search'));
     }
 
+    // Método para la búsqueda en tiempo real
+    public function search(Request $request)
+    {
+        // Validar que el término de búsqueda sea una cadena
+        $autores = Autor::withCount('libros')
+            // Filtrar por nombre utilizando el término de búsqueda
+            ->where('nombre', 'like', '%' . $request->input('search') . '%')
+            // Ordenar por nombre
+            ->orderBy('nombre')
+            // Obtener los resultados
+            ->get();
+        // Devolver los resultados como JSON
+        return response()->json($autores);
+    }
+
     public function create()
     {
         return view('pages.autors.create');

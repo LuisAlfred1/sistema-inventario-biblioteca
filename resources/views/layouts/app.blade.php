@@ -10,5 +10,8 @@
 <body class="bg-gray-100 min-h-screen">
     <x-navbar />
     @yield('content')
+
+    <!-- Scripts personalizados para cada página -->
+    @stack('scripts')
 </body>
 </html>

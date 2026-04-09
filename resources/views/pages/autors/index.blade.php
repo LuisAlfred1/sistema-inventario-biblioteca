@@ -8,7 +8,7 @@
             <section class="flex items-start gap-6">
                 <div>
                     <h1 class="text-xl font-medium text-gray-800">Autores</h1>
-                    <p class="text-sm text-gray-500 mt-0.5">{{ $autores->count() }} autores registrados</p>
+                    <p class="text-sm text-gray-500 mt-0.5">{{ $autores->total() }} autores registrados</p>
                 </div>
                 {{-- Alerta --}}
                 @if (session('success'))
@@ -25,7 +25,8 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                             <i class="bi bi-search"></i>
                         </span>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar autor..."
+                        <input type="text" id="search-input" name="search" value="{{ request('search') }}"
+                            placeholder="Buscar autor..."
                             class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring focus:ring-gray-300 outline-none text-sm">
 
                         @if (request('search'))
@@ -61,7 +62,7 @@
                                     <th class="text-left px-5 py-3">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
+                            <tbody class="divide-y divide-gray-100" id="tabla-body">
                                 @forelse($autores as $autor)
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-5 py-3 text-gray-400">{{ $loop->iteration }}</td>
@@ -74,10 +75,9 @@
                                             </span>
                                         </td>
                                         <td class="px-5 py-3">
-                                            <form action="{{ route('autors.destroy', $autor) }}" method="POST"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
+                                            <form action="/autors/${autor.id}" method="POST" class="inline">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="hidden" name="_method" value="DELETE">
                                                 <button type="submit"
                                                     class="text-red-500 hover:text-red-700 transition cursor-pointer"
                                                     onclick="return confirm('¿Eliminar este autor?')">
@@ -110,3 +110,56 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        const input = document.getElementById('search-input');
+        const tbody = document.getElementById('tabla-body');
+        let debounce;
+
+        input.addEventListener('input', () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(async () => {
+                const search = input.value.trim();
+                console.log('Buscando:', search);
+                if (search.length === 0) {
+                    location.reload();
+                    return;
+                }
+
+                const res = await fetch(
+                    `{{ route('autors.search') }}?search=${encodeURIComponent(search)}`);
+                console.log('Status:', res.status); // verificando la respuesta
+                const autores = await res.json();
+                console.log('Autores:', autores); // verificando el JSON
+                if (autores.length === 0) {
+                    tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-5 py-10 text-center text-gray-400">
+                            <i class="bi bi-people text-2xl block mb-2"></i>
+                            No se encontraron autores.
+                        </td>
+                    </tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = autores.map((autor, i) => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-5 py-3 text-gray-400">${i + 1}</td>
+                    <td class="px-5 py-3 font-medium text-gray-800">${autor.nombre}</td>
+                    <td class="px-5 py-3 text-gray-500">${autor.nacionalidad ?? '—'}</td>
+                    <td class="px-5 py-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-50 text-sky-700">
+                            ${autor.libros_count}
+                        </span>
+                    </td>
+                    <td class="px-5 py-3">
+                        <button class="text-red-500 hover:text-red-700 transition cursor-pointer">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            }, 350);
+        });
+    </script>
+@endpush
