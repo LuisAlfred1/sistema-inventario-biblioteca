@@ -2,11 +2,11 @@
 
 <div class="bg-white border border-gray-200 rounded-xl p-5 flex gap-4 hover:shadow-sm transition">
 
-    {{-- Ícono --}}
-    <div class="shrink-0 w-14 h-14 flex items-center justify-center">
-        <i class="bi bi-journal-richtext text-sky-600 text-5xl"></i>
+    {{-- Imagen --}}
+    {{-- Imagen --}}
+    <div class="w-14 h-18 overflow-hidden shrink-0">
+        <img src="{{ asset('images/bookGradient.png') }}" alt="Libro" class="w-full h-full object-cover">
     </div>
-
     {{-- Info --}}
     <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
