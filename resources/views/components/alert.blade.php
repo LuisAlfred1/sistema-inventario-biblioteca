@@ -21,7 +21,7 @@
     x-transition:enter-start="opacity-0 -translate-x-4" x-transition:enter-end="opacity-100 translate-x-0"
     x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-x-0"
     x-transition:leave-end="opacity-0 -translate-x-4"
-    class="flex items-center gap-3 px-4 py-1 border-l-4 rounded-lg shadow-sm {{ $style['bg'] }}">
+    class="flex items-center gap-3 px-4 py-1 rounded-lg shadow-sm {{ $style['bg'] }}">
 
     <div class="flex items-center gap-2">
         <i class="bi {{ $style['icon'] }} text-lg"></i>
