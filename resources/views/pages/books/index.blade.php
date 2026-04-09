@@ -25,55 +25,19 @@
                 Crear libro
             </a>
         </div>
-        {{-- Tabla --}}
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium">
-                        <th class="text-left px-5 py-3">#</th>
-                        <th class="text-left px-5 py-3">Título</th>
-                        <th class="text-left px-5 py-3">Autor</th>
-                        <th class="text-left px-5 py-3">Año</th>
-                        <th class="text-left px-5 py-3">Stock</th>
-                        <th class="text-left px-5 py-3">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @forelse($libros as $libro)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-5 py-3 text-gray-400">{{ $loop->iteration }}</td>
-                            <td class="px-5 py-3 font-medium text-gray-800">{{ $libro->titulo }}</td>
-                            <td class="px-5 py-3 text-gray-600">{{ $libro->autor->nombre }}</td>
-                            <td class="px-5 py-3 text-gray-500">{{ $libro->anio_publicacion ?? '—' }}</td>
-                            <td class="px-5 py-3">
-                                <span
-                                    class="px-2.5 py-0.5 rounded-full text-xs font-medium
-                                {{ $libro->stock > 0 ? 'bg-sky-50 text-sky-700' : 'bg-red-50 text-red-600' }}">
-                                    {{ $libro->stock }}
-                                </span>
-                            </td>
-                            <td class="px-5 py-3">
-                                <form action="{{ route('books.destroy', $libro) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-700 transition cursor-pointer"
-                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?')">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-5 py-10 text-center text-gray-400">
-                                <i class="bi bi-journals text-2xl block mb-2"></i>
-                                No hay libros registrados aún.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        {{-- Cards --}}
+        @if ($libros->isEmpty())
+            <div class="text-center py-16 text-gray-400">
+                <i class="bi bi-journals text-4xl block mb-3"></i>
+                <p class="text-sm">No hay libros registrados aún.</p>
+            </div>
+        @else
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach ($libros as $libro)
+                    <x-book-card :libro="$libro" />
+                @endforeach
+            </div>
+        @endif
 
     </div>
 @endsection
