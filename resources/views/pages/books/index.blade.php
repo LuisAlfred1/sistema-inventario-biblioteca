@@ -5,9 +5,15 @@
 
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
-            <div>
-                <h1 class="text-xl font-medium text-gray-800">Libros</h1>
-                <p class="text-sm text-gray-500 mt-0.5">{{ $libros->count() }} libros registrados</p>
+            <div class="flex items-start gap-6">
+                <div>
+                    <h1 class="text-xl font-medium text-gray-800">Libros</h1>
+                    <p class="text-sm text-gray-500 mt-0.5">{{ $libros->count() }} libros registrados</p>
+                </div>
+                {{-- Alerta --}}
+                @if (session('success'))
+                    <x-alert type="success" :message="session('success')" />
+                @endif
             </div>
             <a href="{{ route('books.create') }}"
                 class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium

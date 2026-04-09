@@ -5,9 +5,15 @@
 
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
-            <div>
-                <h1 class="text-xl font-medium text-gray-800">Autores</h1>
-                <p class="text-sm text-gray-500 mt-0.5">{{ $autores->count() }} autores registrados</p>
+            <div class="flex items-start gap-6">
+                <div>
+                    <h1 class="text-xl font-medium text-gray-800">Autores</h1>
+                    <p class="text-sm text-gray-500 mt-0.5">{{ $autores->count() }} autores registrados</p>
+                </div>
+                {{-- Alerta --}}
+                @if (session('success'))
+                    <x-alert type="success" :message="session('success')" />
+                @endif
             </div>
             <a href="{{ route('autors.create') }}"
                 class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium
@@ -17,15 +23,6 @@
             </a>
         </div>
 
-        {{-- Flash --}}
-        @if (session('success'))
-            <div
-                class="flex items-center gap-2 bg-sky-50 border border-sky-200 text-sky-700
-                    text-sm rounded-lg px-4 py-3 mb-6">
-                <i class="bi bi-check-circle"></i>
-                {{ session('success') }}
-            </div>
-        @endif
 
         {{-- Tabla --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
