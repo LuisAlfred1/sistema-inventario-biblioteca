@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class AutorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $autores = Autor::withCount('libros')->orderBy('nombre')->get();
-        return view('pages.autors.index', compact('autores'));
+        $search = $request->input('search');
+
+        $autores = Autor::withCount('libros')
+            ->when($search, function ($query) use ($search) {
+                $query->where('nombre', 'like', '%' . $search . '%');
+            })
+            ->orderBy('nombre')
+            ->paginate(6);
+
+        return view('pages.autors.index', compact('autores', 'search'));
     }
 
     public function create()
