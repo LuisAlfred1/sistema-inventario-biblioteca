@@ -14,6 +14,9 @@
                 @if (session('success'))
                     <x-alert type="success" :message="session('success')" />
                 @endif
+                @if (session('error'))
+                    <x-alert type="error" :message="session('error')" />
+                @endif
             </div>
             <a href="{{ route('books.create') }}"
                 class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium

@@ -30,4 +30,16 @@ class AutorController extends Controller
         return redirect()->route('autors.index')
             ->with('success', 'Autor creado exitosamente.');
     }
+
+    public function destroy(Autor $autor)
+    {
+        if ($autor->libros()->count() > 0) {
+            return redirect()->route('autors.index')
+                ->with('error', 'No se puede eliminar el autor porque tiene libros asociados.');
+        }
+
+        $autor->delete();
+        return redirect()->route('autors.index')
+            ->with('success', 'Autor eliminado exitosamente.');
+    }
 }
