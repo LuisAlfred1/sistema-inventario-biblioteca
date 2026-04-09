@@ -120,17 +120,26 @@
             clearTimeout(debounce);
             debounce = setTimeout(async () => {
                 const search = input.value.trim();
-                console.log('Buscando:', search);
+
                 if (search.length === 0) {
                     location.reload();
                     return;
                 }
 
+                // Mostrar spinner
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="px-5 py-10 text-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="animate-spin mx-auto h-8 w-8 text-sky-700" viewBox="0 0 24 24"><defs><linearGradient id="gradient" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="currentColor" stop-opacity=".1"/><stop offset="100%" stop-color="currentColor" stop-opacity=".3"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="none" stroke="url(#gradient)" stroke-width="3"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M12 2a10 10 0 0 1 10 10"/></svg>
+                        Buscando...
+                    </td>
+                </tr>`;
+
                 const res = await fetch(
                     `{{ route('autors.search') }}?search=${encodeURIComponent(search)}`);
-                console.log('Status:', res.status); // verificando la respuesta
+
                 const autores = await res.json();
-                console.log('Autores:', autores); // verificando el JSON
+
                 if (autores.length === 0) {
                     tbody.innerHTML = `
                     <tr>
