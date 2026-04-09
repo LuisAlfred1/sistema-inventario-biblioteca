@@ -32,12 +32,13 @@
                 <p class="text-sm">No hay libros registrados aún.</p>
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach ($libros as $libro)
-                    <x-book-card :libro="$libro" />
-                @endforeach
+            <div class="overflow-y-auto pr-1" style="max-height: calc(100vh - 185px);">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ($libros as $libro)
+                        <x-book-card :libro="$libro" />
+                    @endforeach
+                </div>
             </div>
         @endif
-
     </div>
 @endsection
