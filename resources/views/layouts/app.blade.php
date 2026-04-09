@@ -9,7 +9,9 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
     <x-navbar />
-    @yield('content')
+    <main class="pt-16">
+        @yield('content')
+    </main>
 
     <!-- Scripts personalizados para cada página -->
     @stack('scripts')

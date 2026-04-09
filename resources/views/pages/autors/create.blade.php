@@ -8,7 +8,7 @@
             <a href="{{ route('autors.index') }}"
                 class="flex items-center gap-1 text-sm text-gray-500 hover:text-sky-600 transition mb-3">
                 <i class="bi bi-arrow-left"></i>
-                Volver a autors
+                Volver a autores
             </a>
             <h1 class="text-xl font-medium text-gray-800">Crear autor</h1>
             <p class="text-sm text-gray-500 mt-0.5">Completa los campos para registrar un nuevo autor.</p>
