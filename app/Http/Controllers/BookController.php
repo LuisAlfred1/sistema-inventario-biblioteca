@@ -11,8 +11,34 @@ class BookController extends Controller
     //
     public function index()
     {
-        $libros = Libro::with('autor')->get();
+        $search = request()->input('search');
+
+        $libros = Libro::with('autor')
+            ->when($search, function ($query) use ($search) {
+                $query->where('titulo', 'like', '%' . $search . '%')
+                    ->orWhereHas('autor', function ($q) use ($search) {
+                        $q->where('nombre', 'like', '%' . $search . '%');
+                    });
+            })
+            ->get();
+
         return view('pages.books.index', compact('libros'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $libros = Libro::with('autor')
+            ->when($search, function ($query) use ($search) {
+                $query->where('titulo', 'like', '%' . $search . '%')
+                    ->orWhereHas('autor', function ($q) use ($search) {
+                        $q->where('nombre', 'like', '%' . $search . '%');
+                    });
+            })
+            ->get();
+
+        return response()->json($libros);
     }
 
     public function create()
