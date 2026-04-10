@@ -7,7 +7,7 @@
                     <i class="bi bi-stack"></i>
                 </div>
                 <span class="font-medium text-gray-800">
-                    Sistema de <span class="text-sky-600">Inventario</span>
+                    Sistema de <span class="text-sky-700">Inventario</span> 
                 </span>
             </a>
 

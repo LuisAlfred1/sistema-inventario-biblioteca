@@ -94,7 +94,7 @@
 
                     grid.innerHTML = libros.map(libro => `
                         <div class="bg-white border border-gray-200 rounded-xl p-5 flex gap-4 hover:shadow-sm transition">
-                            <div class="flex-shrink-0 w-14 h-20 bg-gray-100 rounded-md overflow-hidden">
+                            <div class="w-14 h-18 overflow-hidden shrink-0">
                                 <img src="{{ asset('images/bookGradient.png') }}" alt="Libro" class="w-full h-full object-cover">
                             </div>
                             <div class="flex-1 min-w-0">
@@ -150,7 +150,7 @@
 
                 grid.innerHTML = libros.map(libro => `
                 <div class="bg-white border border-gray-200 rounded-xl p-5 flex gap-4 hover:shadow-sm transition">
-                    <div class="flex-shrink-0 w-14 h-20 bg-gray-100 rounded-md overflow-hidden">
+                    <div class="shrink-0 w-14 h-18 overflow-hidden">
                         <img src="{{ asset('images/bookGradient.png') }}" alt="Libro" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1 min-w-0">
