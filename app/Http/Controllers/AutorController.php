@@ -16,7 +16,7 @@ class AutorController extends Controller
                 $query->where('nombre', 'like', '%' . $search . '%');
             })
             ->orderBy('nombre')
-            ->paginate(6);
+            ->paginate(7);
 
         return view('pages.autors.index', compact('autores', 'search'));
     }

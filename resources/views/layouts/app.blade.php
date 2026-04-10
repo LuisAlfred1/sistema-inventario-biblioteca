@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen overflow-hidden">
     <x-navbar />
-    <main class="pt-16">
+    <main class="pt-14">
         @yield('content')
     </main>
 
