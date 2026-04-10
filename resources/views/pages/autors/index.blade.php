@@ -49,7 +49,7 @@
 
         <div class="overflow-hidden bg-white rounded-xl  border border-gray-200 flex flex-col">
             <div class="grow">
-                <div class="bg-white rounded-xl border border-gray-200 flex flex-col" style="min-height: 390px;">
+                <div class="bg-white rounded-xl border border-gray-200 flex flex-col" style="min-height: 420px;">
                     {{-- Tabla --}}
                     <div class="flex-1">
                         <table class="w-full text-sm">
