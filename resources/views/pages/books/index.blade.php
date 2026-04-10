@@ -53,7 +53,7 @@
                 <p class="text-sm">No hay libros registrados aún.</p>
             </div>
         @else
-            <div class="overflow-y-auto pr-1" style="max-height: calc(100vh - 185px);">
+            <div class="overflow-y-auto pr-1 hide-scrollbar" style="max-height: calc(100vh - 185px);">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="cards-grid">
                     @foreach ($libros as $libro)
                         <x-book-card :libro="$libro" />
@@ -64,41 +64,52 @@
     </div>
 @endsection
 @push('scripts')
-<script>
-    const input = document.getElementById('search-input');
-    const grid = document.getElementById('cards-grid');
-    let debounce;
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    input.addEventListener('input', () => {
-        clearTimeout(debounce);
-        debounce = setTimeout(async () => {
-            const search = input.value.trim();
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script>
+        const input = document.getElementById('search-input');
+        const grid = document.getElementById('cards-grid');
+        let debounce;
 
-            if (search.length === 0) {
-                location.reload();
-                return;
-            }
+        input.addEventListener('input', () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(async () => {
+                const search = input.value.trim();
 
-            // Spinner
-            grid.innerHTML = `
+                if (search.length === 0) {
+                    location.reload();
+                    return;
+                }
+
+                // Spinner
+                grid.innerHTML = `
                 <div class="col-span-3 py-10 text-center text-gray-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="animate-spin mx-auto h-8 w-8 text-sky-700" viewBox="0 0 24 24"><defs><linearGradient id="gradient" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="currentColor" stop-opacity=".1"/><stop offset="100%" stop-color="currentColor" stop-opacity=".3"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="none" stroke="url(#gradient)" stroke-width="3"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M12 2a10 10 0 0 1 10 10"/></svg>
                     Buscando...
                 </div>`;
 
-            const res = await fetch(`{{ route('books.search') }}?search=${encodeURIComponent(search)}`);
-            const libros = await res.json();
+                const res = await fetch(
+                    `{{ route('books.search') }}?search=${encodeURIComponent(search)}`);
+                const libros = await res.json();
 
-            if (libros.length === 0) {
-                grid.innerHTML = `
+                if (libros.length === 0) {
+                    grid.innerHTML = `
                     <div class="col-span-3 py-16 text-center text-gray-400">
                         <i class="bi bi-journals text-4xl block mb-3"></i>
                         <p class="text-sm">No se encontraron libros.</p>
                     </div>`;
-                return;
-            }
+                    return;
+                }
 
-            grid.innerHTML = libros.map(libro => `
+                grid.innerHTML = libros.map(libro => `
                 <div class="bg-white border border-gray-200 rounded-xl p-5 flex gap-4 hover:shadow-sm transition">
                     <div class="flex-shrink-0 w-14 h-20 bg-gray-100 rounded-md overflow-hidden">
                         <img src="{{ asset('images/bookGradient.png') }}" alt="Libro" class="w-full h-full object-cover">
@@ -114,9 +125,9 @@
                             <i class="bi bi-person"></i> ${libro.autor.nombre}
                         </p>
                         ${libro.anio_publicacion ? `
-                        <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
-                            <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
-                        </p>` : ''}
+                            <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                                <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
+                            </p>` : ''}
                     </div>
                     <div class="flex-shrink-0">
                         <form action="/books/${libro.id}" method="POST" class="inline">
@@ -132,7 +143,7 @@
                 </div>
             `).join('');
 
-        }, 350);
-    });
-</script>
+            }, 350);
+        });
+    </script>
 @endpush
