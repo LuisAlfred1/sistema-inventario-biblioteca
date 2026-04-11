@@ -1,6 +1,7 @@
 @props(['type' => 'success', 'message'])
 
 @php
+// Define los estilos para cada tipo de alerta, utilizando un array asociativo para organizar los estilos de fondo, texto e icono
     $styles = [
         'success' => [
             'bg' => 'bg-green-50 border-green-400',
@@ -14,6 +15,7 @@
         ],
     ];
 
+    // Obtiene el estilo correspondiente al tipo de alerta
     $style = $styles[$type];
 @endphp
 

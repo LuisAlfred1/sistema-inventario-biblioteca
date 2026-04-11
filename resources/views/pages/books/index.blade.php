@@ -66,6 +66,7 @@
 @endsection
 @push('scripts')
     <style>
+        /*Ocultar scrollbar*/
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -81,13 +82,20 @@
         document.getElementById('search-form').addEventListener('submit', (e) => {
             e.preventDefault();
         });
+        // Implementación de debounce para optimizar las búsquedas en tiempo real
+        //El debounce es una técnica que retrasa la ejecución de una función hasta que haya pasado un cierto tiempo desde la última vez que se invocó. Esto es especialmente útil en casos como la búsqueda en tiempo real, donde queremos evitar realizar una solicitud al servidor cada vez que el usuario escribe una letra, lo que podría generar muchas solicitudes innecesarias y afectar el rendimiento.
         let debounce;
 
+        // Escucha el evento de entrada en el campo de búsqueda
         input.addEventListener('input', () => {
+            // Limpia el temporizador anterior para evitar múltiples solicitudes mientras el usuario escribe
             clearTimeout(debounce);
             debounce = setTimeout(async () => {
+
+                // Obtiene el término de búsqueda actual y eliminar espacios en blanco al inicio y al final
                 const search = input.value.trim();
 
+                // Si el término de búsqueda está vacío, carga todos los libros sin filtrar
                 if (search.length === 0) {
                     const res = await fetch(`{{ route('books.search') }}?search=`);
                     const libros = await res.json();
@@ -108,9 +116,9 @@
                                     <i class="bi bi-person"></i> ${libro.autor.nombre}
                                 </p>
                                 ${libro.anio_publicacion ? `
-                                                <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
-                                                    <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
-                                                </p>` : ''}
+                                                    <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                                                        <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
+                                                    </p>` : ''}
                             </div>
                             <div class="flex-shrink-0">
                                 <form action="/books/${libro.id}" method="POST" class="inline">
@@ -135,10 +143,12 @@
                     Buscando...
                 </div>`;
 
+                // Realiza una solicitud fetch al servidor para obtener los libros que coinciden con el término de búsqueda
                 const res = await fetch(
                     `{{ route('books.search') }}?search=${encodeURIComponent(search)}`);
                 const libros = await res.json();
 
+                // Si no se encuentran libros, muestra un mensaje indicando que no se encontraron resultados
                 if (libros.length === 0) {
                     grid.innerHTML = `
                     <div class="col-span-3 py-16 text-center text-gray-400">
@@ -164,9 +174,9 @@
                             <i class="bi bi-person"></i> ${libro.autor.nombre}
                         </p>
                         ${libro.anio_publicacion ? `
-                                                <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
-                                                    <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
-                                                </p>` : ''}
+                                                    <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                                                        <i class="bi bi-calendar3"></i> ${libro.anio_publicacion}
+                                                    </p>` : ''}
                     </div>
                     <div class="flex-shrink-0">
                         <form action="/books/${libro.id}" method="POST" class="inline">
