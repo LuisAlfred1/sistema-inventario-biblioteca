@@ -14,7 +14,7 @@ class BookController extends Controller
         // Obtiene el término de búsqueda desde la solicitud
         $search = request()->input('search');
 
-        // Utilizar el método when para aplicar el filtro de búsqueda solo si se proporciona un término de búsqueda
+        // with('autor') se utiliza para cargar la relación entre libros y autores, lo que permite acceder a los datos del autor asociado a cada libro.
         $libros = Libro::with('autor')
             ->when($search, function ($query) use ($search) {
                 // Filtrar por título o por el nombre del autor utilizando el término de búsqueda
